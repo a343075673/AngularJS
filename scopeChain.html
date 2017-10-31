@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-app=""scopechain>
+
+</body>
+
+<script>
+    var A =function () {
+        this.getName=function () {
+            return 'jerry';
+
+        }
+
+    }
+    var a =new A;
+
+    var B =function (a) {
+        this.a=a;
+        //B dependent on a
+        document.write(a.getName());
+        document.write(a.getName());
+
+    }
+
+    //a inject into B
+    var b= new B(a);
+    //in js two ways to do injec 1: pass a into B 2: a is global variable
+
+</script>
+</html>

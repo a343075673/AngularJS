@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-app="myapp">
+<div>{{'world'|great}}</div>
+</div>
+<div ng-app=""myapp>
+
+</div>
+<script>
+
+
+    var myAppmodule = angular.module('myapp',[]);
+    myAppmodule.filter('great', function () {return function (name) {
+        return 'hello'+name+'!';
+
+    }
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="myApp">
+    <div ng-controler="firstController">
+        <div book-list>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+   angular.module("myApp",[])
+        .directive('bookList', function () {
+            return {
+                restrict:'ECMA',
+                controller :function ($scope) {
+                    $scope.books =[
+                        {
+                            name:'html5'
+                        },
+                        {
+                            name:'css3'
+
+                        },
+                        {
+                            name:'js'
+                        }
+                    ];
+                    this.addBook = function () {
+                        $scope.$apply(function () {
+                            $scope.books.push({
+                                name:'angular'
+                            })
+
+                        });
+
+                    }
+
+                },
+                controllerAs:'bookListController',
+                template:'<div><ul><li ng-repeat="book in books">'+'{{book.name}}</li></ul><book-add></book-add></div>',
+                replace:true
+
+            }
+
+
+        })
+        .directive('bookAdd',function() {
+            return {
+                restrict:'ECMA',
+                require:'^bookList',
+                template:'<button type="button">Adding</button>',
+                replace:true,
+                link:function (scope,iElement,iAttrs,bookListController) {
+                    iElement.on('click',bookListController.addBook);
+
+                }
+            }
+
+        })
+        .controller('firstController',['$scope',function ($scope) {
+
+
+        }])
+</script>
+
+</body>
+</html>

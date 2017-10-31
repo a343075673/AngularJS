@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+<body ng-app="myapp">
+<div ng-controller="first">
+    {{name}}
+
+</div>
+<script>
+    var app=angular.module('myapp',[],function ($provide) {
+        $provide.provider('customerservice', function () {
+            this.$get = function () {
+                return {
+                    message: 'customerservice messgae'
+                }
+
+            }
+
+        });
+        $provide.provider('customerservice2', function () {
+            this.$get = function () {
+                return {
+                    message: 'customerservice2 messgae'
+                }
+
+            }
+
+
+        })
+    });
+    myapp.controller('first',function (customerservice,$scope,customerservice2) {
+        $scope.name='jerry';
+
+    })
+</script>
+</body>
+</html>

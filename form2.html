@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <style>
+
+    </style>
+</head>
+<body>
+
+<div ng-app="myApp" style="margin-top: 100px">
+    <form name="myForm" class="container form-horizontal"
+          ng-controller="firstController">
+        <!-- <div class="form-group" ng-class="{'has-error':myForm.username.$dirty&&'has-error':myForm.username.$invalid}"> -->
+        <div class="form-group row" >
+            <label for="" class="col-sm-2 control-label">UserName</label>
+            <div class="col-sm-10">
+                <input type="text" name="username" class="form-control"
+                       placeholder="UserName"
+                       ng-model="username"
+                       ng-required="true"
+                       ng-minlength="6"
+                       ng-maxlength="12"
+                       ng-pattern="/^[a-zA-Z]{1}/"
+                >
+                <div ng-show="myForm.username.$error.minlength" class="alert alert-danger help-block">
+                    Username cannot less than 6
+                </div>
+                <div ng-show="myForm.username.$error.maxlength" class="alert alert-danger help-block">
+                    Username cannot bigger than 12
+                </div>
+                <div ng-show="myForm.username.$error.pattern" class="alert alert-danger help-block">
+                    Username cannot start with number
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row" >
+            <label for="" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" name="password" class="form-control"
+                       placeholder="password"
+                       ng-model="password"
+                       ng-required="true"
+                       ng-minlength="6"
+                       ng-maxlength="12"
+                >
+                <div ng-show="myForm.password.$error.minlength" class="alert alert-danger help-block">
+                    Password cannot less than 6
+                </div>
+                <div ng-show="myForm.password.$error.maxlength" class="alert alert-danger help-block">
+                    Password cannot bigger than 12
+                </div>
+                <div ng-show="myForm.password.$error.pattern" class="alert alert-danger help-block">
+                    Password cannot start with number
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row" >
+            <label for="" class="col-sm-2 control-label">Confirm Password</label>
+            <div class="col-sm-10">
+                <input type="password" name="password2" class="form-control"
+                       placeholder="confirm password"
+                       ng-model="password2"
+                       ng-required="true"
+                       ng-pattern="password"
+                >
+                <div ng-show="myForm.password2.$error.pattern" class="alert alert-danger help-block">
+                    Password is not equal.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row" >
+            <label for="" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" name="email" class="form-control"
+                       placeholder="abc@bbb.com"
+                       ng-model="email"
+                       ng-required="true"
+                >
+                <div ng-show="myForm.email.$error.email" class="alert alert-danger help-block">
+                    Please input correct email address
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row" >
+            <label for="" class="col-sm-2 control-label">URL</label>
+            <div class="col-sm-10">
+                <input type="url" name="url" class="form-control"
+                       placeholder="http://ffffdf.fdfdf"
+                       ng-model="url"
+                       ng-required="true"
+                >
+                <div ng-show="myForm.url.$error.url" class="alert alert-danger help-block">
+                    Please input correct url address
+                </div>
+            </div>
+        </div>
+
+
+        <div>
+            Test seletion:
+            <select class="form-control" ng-model="selection" ng-options="v.first for v in selectValues" ng-change="selectedFirstValue(selection)">
+                <option value="" ng-if="!selectValues && !selection">Please select</option>
+            </select>
+            second：
+            <select class="form-control" ng-model="selection.second" ng-options="v.second for v in selection.cities">
+                <option value="" ng-if="!selection.second">Please select</option>
+            </select>
+            Town：
+            <select class="form-control" ng-model="selection.third" ng-options="v for v in selection.second.thirds">
+                <option value="" ng-if="!selection.second">Please select</option>
+            </select>
+        </div>
+
+
+    </form>
+</div>
+
+
+
+<script>
+    let app = angular.module('myApp', [])
+
+        .controller('firstController', function ($scope, data) {
+            $scope.selection = {
+                first: '',
+                second: '',
+                third: ''
+            };
+            $scope.selectValues = data.getData();
+            $scope.selection = $scope.selectValues[0];
+            $scope.selection.second = $scope.selection.cities[0];
+            $scope.selection.third = $scope.selection.second.thirds[0];
+            $scope.selectedFirstValue = function(first) {
+                $scope.selection.second = first ? first.cities[0] : '';
+                $scope.selection.third = first ? first.cities[0].thirds[0] : '';
+            };
+        })
+        .service('data', function () {
+            this.getData = function () {
+                return [
+                    { py: 'aa', first: 'A1', cities: [{second:'AA',thirds:['AAA1','AAA2','AAA3','AAA4']}]},
+                    { py: 'bb', first: 'B', cities: [{second:'BB',thirds:['BBB1','BBB2','BBB3','BBB4','BBB5']}, {second:'BB2',thirds:['BBB2_1','BBB2_2','BBB2_3','BBB2_4','BBB2_5']}] },
+                    { py: 'cc', first: 'C', cities: [{second:'CC',thirds:['CCC1','CCC2','CCC3','CCC4','CCC5']},{second:'CC2',thirds:['CCC21','CCC22','CCC23','CCC24','CCC25']}] }
+                ];
+            }})
+
+
+    // .controller('MyController',['$scope', function($scope) {
+    // }]);
+
+
+</script>
+
+</body>
+</html>x`x

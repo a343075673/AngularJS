@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-app="myApp">
+    <div ng-controller="firstController">
+        {{books}}
+        <div book-list books="books"
+        parent-books="books"
+        parent-title="{{title}}">
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    angular.module('myApp',[])
+        .directive('bookList', function () {
+            return {
+                restrict:'ECMA',
+                controller:function ($scope) {
+                    //&books
+                    //$scope.books=$scope.a();
+                    //console.log($scope.a);
+
+                    //=books;
+                    //$scope.books=$scope.b;
+                    //$scope.b.push({name:'nodejs'});
+
+
+                    //@parentTitle
+                    console.log($scope.c);
+
+                },
+
+
+                // when scope as an object is also creates an isolate scope
+                scope:{
+                    //encodes the parent.s property book
+                    //as a function called a()
+                    //a:'&books'
+                    //books is not the parent
+                    //but is a property of the current directive
+                    // it reflects to the html page
+
+
+
+                    //two way data binding b= parent Books
+                    //b:'=parentBooks'
+
+                    //using primitive type  so cannot use books//
+                    //because here books is an object
+                    // it is one way binding
+                    c:'@parentTitle'
+                },
+                controllerAs:'bookListController',
+                template:'<div><ul><li ng-repeat="book in books">'+'{{book.name}}</li></ul><book-add></book-add></div>',
+                replace:true
+            }
+
+        })
+        .controller('firstController',['$scope',function ($scope) {
+            console.log($scope);
+
+            $scope.books =[
+                {
+                    name:'html5'
+                },
+                {
+                    name:'css3'
+
+                },
+                {
+                    name:'js'
+                }
+            ];
+
+        }])
+</script>
+
+</body>
+</html>

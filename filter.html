@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="costCtrl">
+
+    <h1> {{ price | number}}</h1>
+    <h1> {{ 12345.679 | number}}</h1>
+    <h1> {{ 999999 | currency}}</h1>
+    <h1> {{ price | currency:'rmb'}}</h1>
+    <h1> default:{{today}}</h1>
+
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('costCtrl', function($scope) {
+        $scope.price = 12345678;
+        $scope.today=new Date;
+
+    });
+</script>
+
+
+
+</body>
+</html>

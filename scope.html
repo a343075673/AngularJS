@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+
+<body ng-app='myapp'>
+<div ng-controller="ctrli" style="border:2px solid blue;padding: 5px">
+    hello{{msg}}<br>
+    hello{{name}}!(rootScope)
+</div>
+<br>
+<div ng-controller="ctrli2" style="border: 2px solid green;padding: 5px">
+    hello{{msg}}!<br>
+    hey{{myname}}<br>
+    hi{{name}}! (rootScope)
+</div>
+<script>
+    var app = angular.module('myapp',[]);
+    app.controller('ctrli',function ($scope,$rootScope) {
+        $scope.msg="world";
+        $rootScope.name="angular"
+
+    });
+    app.controller("ctrli2",function ($scope, $rootScope) {
+        $scope.msg=$rootScope.msg;
+    $rootScope.myname=$rootScope.name;
+
+
+    });
+</script>
+</body>
+</html>

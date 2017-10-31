@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+</head>
+<body ng-app="myapp">
+<level-one>
+    <level-two>
+        <level-three>
+            hello{{name}}
+        </level-three>
+    </level-two>
+</level-one>
+
+</body>
+<script>
+
+
+    function createdirective(name) {
+        return function () {
+            return {
+                restrict:'E',
+                compile:function (tElem,tAttrs) {
+                    console.log(name+':compile');
+                    return {
+                        pre:function (scope,iElem,attrs) {
+                            console.log(name+':prelink');
+
+                        },
+                        post:function (scope,iElem,attrs) {
+                            console.log(name+':post link');
+
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+    }
+    app.directive('levelOne' ,createdirective('level-One'));
+    app.directive('levelTwo' ,createdirective('level-Two'));
+    app.directive('levelThree' ,createdirective('level-Three'));
+
+
+</script>
+</html>

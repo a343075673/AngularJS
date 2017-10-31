@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.js"></script>
+</head>
+<body ng-app="myApp">
+<div ng-controller="myCtrl">
+    <ul>
+        <li><a href="#!a">click a</a> </li>
+        <li><a href="#!b">click b</a> </li>
+    </ul>
+
+
+</div>
+<div ng-view></div>
+
+<script>
+    angular.module("myApp",["ngRoute"])
+        .controller('aController', function ($scope,$route) {
+            $scope.hello ="hello,this is #a";
+
+    })
+        .controller("bController",function ($scope) {
+        $scope.hello ="hello,this is #b, 3s";
+
+        })
+
+        .controller("myCtrl",function ($scope,$location){
+            console.log("1123")
+            $scope.$on("$viewContentLoaded",function () {
+                console.log("ng-view content loaded!");
+
+
+            });
+            $scope.$on("$routeChangeStart",function (event,next,current) {
+                console.log("route change start!")
+
+            });
+
+
+        })
+        .config(function ($routeProvider,$locationProvider) {
+            $routeProvider
+                .when('/a',{
+                    templateUrl:'a.html',
+                    controller:'aController'
+                })
+                .when("/b",{
+                    templateUrl:'b.html',
+                    controller:'bController',
+                    resolve:{
+                        delay:function ($q,$timeout) {
+                            var delay = $q.defer();
+                            $timeout(delay.resolve,3000);
+                            return delay.promise;
+
+                        }
+                    }
+                })
+                .otherwise({
+                    redirectTo:'/'
+                });
+
+        });
+
+</script>
+<script type='text/ng-template' id='a.html'>
+<div><h1>{{hello}}</h1></div>
+
+</script>
+<script type='text/ng-template' id='b.html'>
+    <div><h1>{{hello}}</h1></div>
+
+</script>
+</body>
+</html>

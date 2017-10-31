@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="myapp">
+    <div ng-controller="first">
+        {{date}}
+    </div>
+</div>
+</body>
+<script>
+    var app=angular.module('myapp',[]);
+    app.controller("first", function ($scope) {
+        $scope.date =new Date();
+      setInterval(function () {
+          $scope.$apply(function () {
+              $scope.date =new Date();
+
+          })
+      },1000)
+
+      });
+
+
+</script>
+</html>
